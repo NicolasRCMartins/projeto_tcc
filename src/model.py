@@ -12,12 +12,12 @@ class CNN(nn.Module): #CNN -> Convolutional Neural Networks
     def __init__(self):
         super(CNN, self).__init__() #inicializa a classe base que delega chamadas de métodos para o tipo de classe de parent ou sibling, permitindo que o Pytorch registre as camadas e parâmetros.
 
-        self.conv1 = nn.Conv2d(3,16,3) #aplica uma convolução 2D em um sinal de input composto de outros muitos "input planes". Resulta em um output de matriz transformado, capturando "patterns" como arestas, texturas e formatos (edges, textures and shapes)
-        self.bn1 = nn.BatchNorm2d(16)
-        self.conv2 = nn.Conv2d(16,32,3) #aumenta a profundidade
-        self.bn2 = nn.BatchNorm2d(32)
-        self.conv3 = nn.Conv2d(32,64,3)
-        self.bn3 = nn.BatchNorm2d(64)
+        self.conv1 = nn.Conv2d(1,32,kernel_size=3, padding=1) #aplica uma convolução 2D em um sinal de input composto de outros muitos "input planes". Resulta em um output de matriz transformado, capturando "patterns" como arestas, texturas e formatos (edges, textures and shapes)
+        self.bn1 = nn.BatchNorm2d(32)
+        self.conv2 = nn.Conv2d(32,64,kernel_size=3, padding=1) #aumenta a profundidade
+        self.bn2 = nn.BatchNorm2d(64)
+        self.conv3 = nn.Conv2d(64,128,kernel_size=3, padding=1)
+        self.bn3 = nn.BatchNorm2d(128)
 
         self.pool = nn.MaxPool2d(2,2) #reduz o tamanho da imagem e mantém os valores mais importantes
         self.adapt = nn.AdaptiveAvgPool2d((7,7))

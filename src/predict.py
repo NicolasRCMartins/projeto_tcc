@@ -2,7 +2,6 @@ import cv2
 import dataset
 import torch
 import model
-import torchvision.models as models
 
 model_predict = model.CNN()
 model_predict.load_state_dict(torch.load("model.pth"))
