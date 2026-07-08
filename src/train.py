@@ -6,11 +6,12 @@ import dataset
 import time
 
 EPOCHS = 20 #um epoch se refere a uma "passagem" completa através de todo dataset de treinamento, onde cada sample é rodado no modelo e seus parâmetros são atualizados com base nos erros calculados.
-BATCH_SIZE = 32
+BATCH_SIZE = 205
 
 def main():
-    train_size = int(0.8 * len(dataset.dataset))
+    train_size = int(0.7 * len(dataset.dataset))
     val_size = len(dataset.dataset) - train_size
+    total_time = 0
 
     train_dataset, val_dataset = torch.utils.data.random_split(
         dataset.dataset, [train_size, val_size]
@@ -20,14 +21,14 @@ def main():
         train_dataset,
         batch_size=BATCH_SIZE, #hiperparâmetro que determina quantos samples são processados mutuamente em que afeta a frequência de atualizações.
         shuffle=True, #mistura e embaralha os itens do array
-        num_workers=4, #paralelismo
+        num_workers=6, #paralelismo
     )
     
     val_loader = DataLoader(
         val_dataset,
         batch_size=BATCH_SIZE, #hiperparâmetro que determina quantos samples são processados mutuamente em que afeta a frequência de atualizações.
         shuffle=True, #mistura e embaralha os itens do array
-        num_workers=4, #paralelismo
+        num_workers=6, #paralelismo
     )
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu") #Utiliza o processamento da placa de vídeo NVIDIA ao invés do processador
@@ -38,13 +39,13 @@ def main():
 
     optimizer = torch.optim.Adam( #algoritmo específico para otimização estocástica (maximizar ou minimizar funções objetivo na presença de incerteza)
         model_train.parameters(),
-        #lr=0.001 #learning rate/taxa de aprendizado
+        lr=0.004 #learning rate/taxa de aprendizado
     )
     
     scheduler = torch.optim.lr_scheduler.StepLR(
         optimizer,
         step_size=5,
-        gamma=0.5
+        gamma=1
     )
 
     for epoch in range(1, EPOCHS + 1):
@@ -103,10 +104,15 @@ def main():
         print(f"Epoch {epoch}/{EPOCHS} | Loss: {epoch_loss:.8f} | Acc: {accuracy:.2f}%")
 
         final_time = time.perf_counter()
+        total_epoch_time = final_time - init_time
+        total_time += total_epoch_time
 
-        print("Tempo de execução de treino: ", final_time-init_time, "segundos no epoch ", epoch)
+        print()
+        print("Tempo de execução de treino:", total_epoch_time, "segundos no epoch", epoch)
 
-    torch.save(model_train.state_dict(), "model.pth")#salva o treinamento para evitar que execute o treino em toda execução do código
+    print()
+    print("Tempo de execução total do treino: ", total_time / 60, "minutos")
+    torch.save(model_train.state_dict(), "model.pth") #salva o treinamento para evitar que execute o treino em toda execução do código
 
-if __name__ == "__main__": #para não bugar com o paralelismo
+if __name__ == "__main__": 
     main()
