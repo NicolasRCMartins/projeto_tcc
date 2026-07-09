@@ -1,21 +1,18 @@
 import torch.nn as nn
 import torch.nn.functional as F
-from torchvision.models import resnet18, ResNet18_Weights
-
-weights = ResNet18_Weights.DEFAULT
-preprocess = weights.transforms()
-model = resnet18(weights=weights)
-model.fc = nn.Linear(model.fc.in_features, 2)
+from torch import flatten as flat
 
 class CNN(nn.Module): #CNN -> Convolutional Neural Networks
 
     def __init__(self):
         super(CNN, self).__init__() #inicializa a classe base que delega chamadas de métodos para o tipo de classe de parent ou sibling, permitindo que o Pytorch registre as camadas e parâmetros.
 
-        self.conv1 = nn.Conv2d(1,32,kernel_size=3, padding=1) #aplica uma convolução 2D em um sinal de input composto de outros muitos "input planes". Resulta em um output de matriz transformado, capturando "patterns" como arestas, texturas e formatos (edges, textures and shapes)
+        self.conv1 = nn.Conv2d(3,32,kernel_size=3, padding=1) #aplica uma convolução 2D em um sinal de input composto de outros muitos "input planes". Resulta em um output de matriz transformado, capturando "patterns" como arestas, texturas e formatos (edges, textures and shapes)
         self.bn1 = nn.BatchNorm2d(32)
+        
         self.conv2 = nn.Conv2d(32,64,kernel_size=3, padding=1) #aumenta a profundidade
         self.bn2 = nn.BatchNorm2d(64)
+        
         self.conv3 = nn.Conv2d(64,128,kernel_size=3, padding=1)
         self.bn3 = nn.BatchNorm2d(128)
 
@@ -34,7 +31,7 @@ class CNN(nn.Module): #CNN -> Convolutional Neural Networks
         
         x = self.adapt(x)
 
-        x = x.view(x.size(0), -1) #transforma e simplifica um array. Ex: [batch, canais, altura, largura] -> [batch, vetor]
+        x = flat(x, 1) #transforma e simplifica um array. Ex: [batch, canais, altura, largura] -> [batch, vetor]
 
         x = F.relu(self.fc1(x)) #reduz dimensionalidade e aprende combinações de features
         x = self.dropout(x)

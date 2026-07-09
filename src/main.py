@@ -4,7 +4,7 @@ import os
 def main():
 
     test_images = []
-    folder = os.path.join('teste_imagem')
+    folder = os.path.join('teste_imagem_resized')
 
     for file in os.listdir(folder):
         path = os.path.join(folder, file)
