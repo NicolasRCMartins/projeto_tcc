@@ -2,10 +2,10 @@ import os
 from PIL import Image
 
 # Diretório de entrada (originais)
-input_dir = "teste_imagem"
+input_dir = "imagens_novas_humanas"
 
 # Diretório de saída (redimensionadas)
-output_dir = "teste_imagem_resized"
+output_dir = "imagens_novas_humanas_resized"
 
 # Tamanho alvo
 target_size = (224, 224)
@@ -14,7 +14,7 @@ target_size = (224, 224)
 os.makedirs(output_dir, exist_ok=True)
 
 # Extensões suportadas
-valid_extensions = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
+valid_extensions = (".jpg", ".jpeg", ".png", ".bmp", ".gif", ".jfif", ".webp")
 
 # Loop nas imagens
 for filename in os.listdir(input_dir):

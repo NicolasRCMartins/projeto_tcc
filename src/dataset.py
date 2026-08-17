@@ -61,18 +61,17 @@ class ArtDataset(Dataset):
 
         return img, label
 
-train_transform = transforms.Compose([ #para compôr vários tipos de alterações na imagem de uma só vez juntos.
-    transforms.ToPILImage(), #converte a imagem para formato PIL (Python Imaging Library)
+train_transform = transforms.Compose([
+    transforms.ToPILImage(),
     transforms.RandomHorizontalFlip(p=0.5),
     transforms.RandomRotation(10),
     transforms.ColorJitter(brightness=0.2, contrast=0.2),
-    transforms.ToTensor(), #Transforma em um tensor
+    transforms.ToTensor(),
 ])
 
 inference_transform = transforms.Compose([
     transforms.ToPILImage(),
     transforms.ToTensor(),
-    # transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) # Mesma normalização do treino
 ])
 
 dataset = ArtDataset("dataset", transform=train_transform)

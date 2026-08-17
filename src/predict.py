@@ -41,16 +41,29 @@ def predict(img_path):
     with torch.no_grad():
         output = model_predict(img_tensor)
         probabilities = torch.nn.functional.softmax(output, dim=1)
-        confidences, predicted = torch.max(probabilities, 1)
-    
-    class_idx = predicted.item()
-    label = "Arte Humana" if class_idx == 0 else "Imagem de IA"
+        
+        # Extrai as probabilidades individuais para cada classe
+        # Índice 0 = Humano, Índice 1 = IA
+        prob_humano = probabilities[0][0].item()
+        prob_ia = probabilities[0][1].item()
+        
+        # O threshold é aplicado APENAS na probabilidade de ser IA
+        threshold = 0.8
+        
+        if prob_ia >= threshold:
+            class_idx = 1  
+            label = "Imagem de IA"
+            confidence = prob_ia  # A confiança é a prob de ser IA
+        else:
+            class_idx = 0  
+            label = "Arte Humana"
+            confidence = prob_humano  # A confiança é a prob de ser Humano
     
     return {
         "classificacao": label,
         "distribuicao_probabilidades": probabilities.squeeze(0).tolist(),
-        "confiança": confidences.item(),
-        "predicão": class_idx
+        "confianca": confidence,
+        "predicao": class_idx
     }
 
 #img = cv2.imread(test_image)

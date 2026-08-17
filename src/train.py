@@ -12,7 +12,7 @@ import numpy as np
 EPOCHS = 20
 BATCH_SIZE = 64
 K_FOLDS = 5
-PATIENCE = 5
+PATIENCE = 4
 
 # --- Classe de Early Stopping ---
 class EarlyStopping:
