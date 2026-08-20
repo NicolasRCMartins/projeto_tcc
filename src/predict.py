@@ -4,6 +4,9 @@ import torch
 import torch.nn.functional as F
 from pathlib import Path
 import model
+import os
+import uuid
+import numpy as np
 
 device = torch.device("cuda" if torch.cuda.is_available() else ("mps" if torch.backends.mps.is_available() else "cpu"))
 
@@ -13,8 +16,6 @@ if device.type == "cuda":
 model_predict = model.CNN()
 
 try:
-    # Desserialização estrita sob a diretiva de mitigação da CVE-2026-24747
-    # Nota: Recomenda-se a execução em PyTorch v2.10.0+ para garantir a eficácia deste filtro
     state_dict = torch.load("model_best_fold.pth", map_location=device, weights_only=True)
     model_predict.load_state_dict(state_dict)
 except Exception as exc:
@@ -23,18 +24,19 @@ except Exception as exc:
 model_predict.to(device)
 model_predict.eval()
 
-def predict(img_path):
-    img = cv2.imread(img_path)
+def predict(file):
+    file_bytes = np.frombuffer(file.read(), np.uint8)
+    
+    img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     
     if img is None:
-        raise ValueError("Imagem não encontrada")
+        return {"erro": "Não foi possível processar esta imagem. Verifique se é um arquivo válido."}
     
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
     img_tensor = dataset.preprocess(img_rgb)
     
     if img_tensor is None:
-        return "Erro: Não foi possível processar esta imagem."
+        return {"erro": "Erro no pré-processamento da imagem."}
     
     img_tensor = img_tensor.to(device)
     
@@ -42,29 +44,27 @@ def predict(img_path):
         output = model_predict(img_tensor)
         probabilities = torch.nn.functional.softmax(output, dim=1)
         
-        # Extrai as probabilidades individuais para cada classe
-        # Índice 0 = Humano, Índice 1 = IA
         prob_humano = probabilities[0][0].item()
         prob_ia = probabilities[0][1].item()
         
-        # O threshold é aplicado APENAS na probabilidade de ser IA
         threshold = 0.8
         
         if prob_ia >= threshold:
             class_idx = 1  
             label = "Imagem de IA"
-            confidence = prob_ia  # A confiança é a prob de ser IA
+            confidence = prob_ia  
         else:
             class_idx = 0  
             label = "Arte Humana"
-            confidence = prob_humano  # A confiança é a prob de ser Humano
+            confidence = prob_humano  
+    
+    filename = f"{uuid.uuid4().hex}.png"
+    filepath = os.path.join('static', 'uploads', filename)
+    cv2.imwrite(filepath, img)
     
     return {
         "classificacao": label,
-        "distribuicao_probabilidades": probabilities.squeeze(0).tolist(),
-        "confianca": confidence,
-        "predicao": class_idx
+        "confianca": f"{confidence * 100:.2f}%",
+        "predicao": class_idx,
+        "imagem_url": f"/{filepath}".replace("\\", "/"),
     }
-
-#img = cv2.imread(test_image)
-#print(img.shape)

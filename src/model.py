@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch import flatten as flat
 
-class CNN(nn.Module): #CNN -> Convolutional Neural Networks
+class CNN(nn.Module): 
 
     def __init__(self):
         super(CNN, self).__init__() #inicializa a classe base que delega chamadas de métodos para o tipo de classe de parent ou sibling, permitindo que o Pytorch registre as camadas e parâmetros.

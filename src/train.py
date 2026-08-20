@@ -4,17 +4,15 @@ from torch.utils.data import DataLoader, Subset
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import accuracy_score, f1_score, classification_report
 import model
-import dataset # Importa o seu arquivo dataset.py
+import dataset 
 import time
 import numpy as np
 
-# --- Hiperparâmetros ---
 EPOCHS = 20
 BATCH_SIZE = 64
 K_FOLDS = 5
 PATIENCE = 4
 
-# --- Classe de Early Stopping ---
 class EarlyStopping:
     def __init__(self, patience=5, delta=0):
         self.patience = patience
@@ -42,29 +40,22 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Usando dispositivo: {device}")
 
-    # 1. Criar os Datasets Base (Fora do loop para não ler o diretório repetidamente)
-    # O dataset de TREINO usa Data Augmentation
     train_ds = dataset.ArtDataset("dataset", transform=dataset.train_transform)
-    # O dataset de VALIDAÇÃO NÃO usa Data Augmentation (apenas ToTensor/Normalize)
     val_ds = dataset.ArtDataset("dataset", transform=dataset.inference_transform)
 
-    # 2. Extrair rótulos para estratificação (ambos os datasets têm a mesma ordem de arquivos)
     print("Extraindo rótulos para estratificação...")
     labels = train_ds.labels 
     
-    # 3. Configurar Validação Cruzada Estratificada
     kfold = StratifiedKFold(n_splits=K_FOLDS, shuffle=True, random_state=42)
     
     fold_accuracies = []
     fold_f1_scores = []
 
-    # 4. Loop dos Folds
     for fold, (train_idx, val_idx) in enumerate(kfold.split(np.zeros(len(labels)), labels)):
         print(f"\n{'='*20} FOLD {fold + 1}/{K_FOLDS} {'='*20}")
         
-        # Criar subsets usando os datasets CORRETOS
         train_subset = Subset(train_ds, train_idx)
-        val_subset = Subset(val_ds, val_idx) # <-- Usa o val_ds (sem augmentations)
+        val_subset = Subset(val_ds, val_idx) 
 
         train_loader = DataLoader(train_subset, batch_size=BATCH_SIZE, shuffle=True, num_workers=4)
         val_loader = DataLoader(val_subset, batch_size=BATCH_SIZE, shuffle=False, num_workers=4)
@@ -80,13 +71,11 @@ def main():
         
         early_stopping = EarlyStopping(patience=PATIENCE)
 
-        # 5. Loop de Épocas
         for epoch in range(1, EPOCHS + 1):
             init_time = time.perf_counter()
             model_train.train()
             running_loss = 0.0
             
-            # --- FASE DE TREINO ---
             for images, labels_batch in train_loader:
                 images, labels_batch = images.to(device), labels_batch.to(device)
                 
@@ -100,7 +89,6 @@ def main():
             
             epoch_loss = running_loss / len(train_loader.dataset)
 
-            # --- FASE DE VALIDAÇÃO ---
             model_train.eval()
             val_loss = 0.0
             
@@ -112,7 +100,6 @@ def main():
                     val_loss += loss.item() * images.size(0)
                     
                     _, predicted = torch.max(outputs, 1)
-                    # (Não precisamos acumular labels/preds aqui, faremos no final do fold)
             
             val_loss /= len(val_loader.dataset)
             
@@ -132,7 +119,6 @@ def main():
                 print(f"Early stopping ativado na época {epoch}.")
                 break
 
-        # 6. Avaliação Final do Fold
         print("Carregando melhores pesos do modelo para avaliação final do fold...")
         model_train.load_state_dict(early_stopping.best_model_state)
         model_train.to(device)
@@ -159,7 +145,6 @@ def main():
         print("Relatório de Classificação:")
         print(classification_report(final_labels, final_preds, zero_division=0))
 
-    # 7. Resumo Geral
     print(f"\n{'='*20} RESULTADOS FINAIS (MÉDIA DOS FOLDS) {'='*20}")
     print(f"Acurácia Média: {np.mean(fold_accuracies):.4f} (+/- {np.std(fold_accuracies):.4f})")
     print(f"F1-Score Médio: {np.mean(fold_f1_scores):.4f} (+/- {np.std(fold_f1_scores):.4f})")

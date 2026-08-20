@@ -1,22 +1,16 @@
 import os
 from PIL import Image
 
-# Diretório de entrada (originais)
 input_dir = "imagens_novas_humanas"
 
-# Diretório de saída (redimensionadas)
 output_dir = "imagens_novas_humanas_resized"
 
-# Tamanho alvo
 target_size = (224, 224)
 
-# Cria a pasta de saída se não existir
 os.makedirs(output_dir, exist_ok=True)
 
-# Extensões suportadas
 valid_extensions = (".jpg", ".jpeg", ".png", ".bmp", ".gif", ".jfif", ".webp")
 
-# Loop nas imagens
 for filename in os.listdir(input_dir):
     if filename.lower().endswith(valid_extensions):
         input_path = os.path.join(input_dir, filename)
@@ -24,13 +18,10 @@ for filename in os.listdir(input_dir):
 
         try:
             with Image.open(input_path) as img:
-                # Converte para RGB (evita erro com PNGs com alpha, etc)
                 img = img.convert("RGB")
 
-                # Redimensiona
                 resized_img = img.resize(target_size, Image.LANCZOS)
 
-                # Salva no novo diretório
                 resized_img.save(output_path)
 
         except Exception as e:

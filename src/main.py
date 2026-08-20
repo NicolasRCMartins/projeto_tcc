@@ -10,8 +10,6 @@ def main():
         path = os.path.join(folder, file)
         test_images.append(path)
 
-    #print(test_images)
-
     for img_path in test_images:
         result = predict.predict(img_path)
         print(f"{img_path} -> {result}")

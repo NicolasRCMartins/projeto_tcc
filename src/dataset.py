@@ -1,7 +1,7 @@
-import os #biblioteca para abrir e manipular diretórios do windows
-import cv2 #opencv - open source biblioteca com funções de computação visual em tempo-real, usado principalmente para processamento de vídeo e imagem.
-import numpy as np #biblioteca para cálculos computacionais mais precisos e científicos
-import torch #pytorch - framework de machine learning para classificação de imagens
+import os 
+import cv2 
+import numpy as np 
+import torch 
 from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
@@ -9,7 +9,7 @@ from torchvision import transforms
 def is_valid_image(path):
     try:
         img = Image.open(path)
-        img.verify()  # verifica corrupção
+        img.verify()  
         return True
     except Exception:
         return False
@@ -46,7 +46,7 @@ class ArtDataset(Dataset):
         if not is_valid_image(img_path):
             raise ValueError(f"Imagem corrompida ou inválida: {img_path}")
         
-        img = cv2.imread(img_path) #carrega uma imagem de um path específico
+        img = cv2.imread(img_path)
         
         if img is None:
             raise ValueError(f"Não foi possível ler a imagem: {img_path}")
@@ -74,16 +74,8 @@ inference_transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
-dataset = ArtDataset("dataset", transform=train_transform)
-
 def preprocess(image_input):
-    """
-    Pré-processa uma imagem para inferência.
-    Aceita tanto o caminho do arquivo (string) quanto um array numpy (RGB).
-    Retorna um tensor com shape (1, 3, Height, Width).
-    """
     try:
-        # 1. Carregar a imagem
         if isinstance(image_input, str):
             img = cv2.imread(image_input)
             if img is None:
@@ -96,10 +88,8 @@ def preprocess(image_input):
         else:
             raise ValueError("Formato de entrada não suportado.")
 
-        # 2. Aplicar transformações de inferência (sem augmentations)
         tensor_img = inference_transform(img)
 
-        # 3. Adicionar dimensão do batch (1, 3, H, W)
         tensor_img = tensor_img.unsqueeze(0)
 
         return tensor_img
@@ -107,3 +97,7 @@ def preprocess(image_input):
     except Exception as e:
         print(f"Erro no preprocessamento: {e}")
         return None
+    
+if __name__ == '__main__':
+    dataset = ArtDataset("dataset", transform=train_transform)
+    print(f"Dataset carregado com sucesso! {len(dataset)} imagens encontradas.")
