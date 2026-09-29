@@ -7,23 +7,52 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f8f9fa; }
-        .upload-container { max-width: 600px; margin: 50px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .upload-container { margin: 60px auto; padding: 30px; border-radius: 10px; transition: 0.3s;}
+        .upload-container:hover { background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1);  }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiar" style="background-color: black;" data-bs-theme="light">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: rgb(255, 255, 255);" href="#">ArtVerificator</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active"  style="color: rgb(255, 255, 255); "aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/dataset">Dataset</a> <!--Ideias: Colocar um carrosel das imagens do dataset; Colocar a data de quando determinada imagem foi adicionada no dataset; Colocar a data de quando foi a última vez que foi treinado-->
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/sobre">Sobre</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
-        <div class="upload-container text-center">
-            <h1 class="mb-4">🎨 Detector de Arte Humana vs IA</h1>
-            <p class="text-muted">Envie uma imagem para descobrir se ela foi criada por um humano ou por Inteligência Artificial.</p>
+        <div class="upload-container text-center" style="padding: 250px; width: 100%; height: 100%;">
+            <h1 class="mb-4">ArtVerificator</h1>
+            <h2 class="mb-4">Detector de Artes Humanas e Artificiais</h1>
+            <p class="text-muted">Envie uma imagem para descobrir se ela foi criada por um humano ou por Inteligência Artificial. (As imagens detectadas incorretamente podem ser inseridas no dataset público para treinar e aprimorar a acurácia do modelo).</p>
             
             <form action="/predict" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Selecione uma imagem (JPG, PNG)</label>
-                    <input class="form-control" type="file" id="formFile" name="file" accept="image/*" required>
+                    <input class="form-control w-20" type="file" id="formFile" name="file" accept="image/*" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg w-100">Analisar Imagem</button>
+                <button type="submit" class="btn btn-primary btn-lg">Analisar Imagem</button>
             </form>
         </div>
     </div>
+
+    <footer>
+        <div class="card text-bg-dark" style="width: 100%; border-radius: 0px;">
+            <img src="../static/images/thousand_sunny_wp.jpg" width="auto" height="250" class="card-img">
+                <div class="card-img-overlay">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus optio consequuntur minus aspernatur, quaerat veniam officia mollitia repellendus. Deleniti molestiae expedita eum, culpa nihil at fugit totam quod tempora possimus?</p>
+                </div>
+        </div>
+    </footer>
 </body>
 </html>

@@ -47,6 +47,14 @@ def error_page(message):
 def home():
     return render_template('index.html')
 
+@app.route("/sobre")
+def sobre():
+    return render_template('sobre.html')
+
+@app.route("/dataset")
+def dataset():
+    return render_template('dataset.html')
+
 @app.route('/predict', methods=['POST'])
 def predict_route():
     if 'file' not in request.files:

@@ -13,17 +13,34 @@
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiar" style="background-color: black;" data-bs-theme="light">
+        <div class="container-fluid">
+            <a class="navbar-brand" style="color: rgb(255, 255, 255);" href="#">ArtVerificator</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/dataset">Dataset</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/sobre">Sobre</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
     <div class="container">
-        <div class="result-container text-center">
+        <div class="result-container text-center" style="padding: 50px; width: 100%; height: 100%;">
             <h1 class="mb-4">Resultado da Análise</h1>
             
             <img src="{{ result.imagem_url }}" alt="Imagem enviada" class="result-img">
             
             <h2>
                 {% if result.predicao == 1 %}
-                    <span class="badge bg-danger badge-result">🤖 {{ result.classificacao }}</span>
+                    <span class="badge bg-danger badge-result">{{ result.classificacao }}</span>
                 {% else %}
-                    <span class="badge bg-success badge-result">🧑‍🎨 {{ result.classificacao }}</span>
+                    <span class="badge bg-success badge-result">{{ result.classificacao }}</span>
                 {% endif %}
             </h2>
             
@@ -40,13 +57,23 @@
                 <input type="hidden" name="filepath" value="{{ result.imagem_url }}">
                 
                 <button type="submit" name="correct_label" value="humano" class="btn btn-outline-success">
-                    🧑‍🎨 Na verdade é Humano
+                    Na verdade é Humano
                 </button>
                 <button type="submit" name="correct_label" value="ia" class="btn btn-outline-danger">
-                    🤖 Na verdade é IA
+                    Na verdade é IA
                 </button>
             </form>
         </div>
     </div>
+
+    <footer>
+        <div class="card text-bg-dark" style="width: 100%; border-radius: 0px;">
+            <img src="../static/images/thousand_sunny_wp.jpg" width="auto" height="250" class="card-img">
+                <div class="card-img-overlay">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus optio consequuntur minus aspernatur, quaerat veniam officia mollitia repellendus. Deleniti molestiae expedita eum, culpa nihil at fugit totam quod tempora possimus?</p>
+                </div>
+        </div>
+    </footer>
 </body>
 </html>
