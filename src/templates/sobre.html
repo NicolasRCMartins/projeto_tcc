@@ -5,44 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sobre</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .sobre-container { margin: 60px auto; padding: 30px; border-radius: 10px; transition: 0.3s;}
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sobre.css') }}">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiar" style="background-color: black;" data-bs-theme="light">
+    <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container-fluid">
-            <a class="navbar-brand" style="color: rgb(255, 255, 255);" href="#">ArtVerificator</a>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active"  style="color: rgb(255, 255, 255, 0.5); "aria-current="page" href="/">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: rgba(255, 255, 255, 0.5);" href="/dataset">Dataset</a> 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: rgba(255, 255, 255);" href="/sobre">Sobre</a>
-                </li>
-            </ul>
+            <a class="navbar-brand" href="/" style="font-size: 22px; margin: auto 10px auto;">ArtVerificator</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="border-color: rgba(255,255,255,0.5);">
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dataset">DATASET</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/sobre">SOBRE</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div>
-        <h1 class="mb-4">Sobre o projeto</h1>
-            <p>Esse projeto é um Trabalho de Conclusão de Curso (TCC) de Engenharia de Computação da UNISAL, programado por Nicolas Rodrigues. O projeto tem como intuito disponibilizar gratuitamente uma ferramenta para artistas ou entusiastas que queiram verificar se determinada imagem artística é feita artesanalmente por um ser humano ou se foi gerada artificialmente por uma IA Generativa. Todas as imagens do dataset são públicas e podem ser visualizadas na seção de Dataset.</p>
-            <a href="https://github.com/NicolasRCMartins/projeto_tcc" target="_blank" rel="noopener noreferrer">Clique aqui para ser transportado ao github do projeto.</a>
+    <div class="container">
+        <div class="about-container">
+            <h1 class="about-title">Sobre o Projeto</h1>
+            
+            <p class="about-text">
+                Este projeto é um Trabalho de Conclusão de Curso (TCC) em Engenharia de Computação pela <strong>UNISAL</strong>, desenvolvido por <strong>Nicolas Rodrigues</strong>. 
+            </p>
+            <p class="about-text">
+                O projeto tem como intuito disponibilizar gratuitamente uma ferramenta para artistas ou entusiastas que queiram verificar se determinada imagem artística é feita artesanalmente por um ser humano ou se foi gerada artificialmente por uma IA Generativa. Todas as imagens do dataset são públicas e podem ser visualizadas na seção de <a href="/dataset" class="link-dataset">Dataset</a>.
+            </p>
+            
+            <a href="https://github.com/NicolasRCMartins/projeto_tcc" target="_blank" rel="noopener noreferrer" class="github-btn">
+                <!-- Ícone SVG oficial do GitHub (Octocat) -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                <span>Ver código no GitHub</span>
+            </a>
+        </div>
     </div>
 
     <footer>
-        <div class="card text-bg-dark" style="width: 100%; border-radius: 0px;">
-            <img src="../static/images/thousand_sunny_wp.jpg" width="auto" height="250" class="card-img">
+        <div class="card text-bg-dark">
+            <img src="{{ url_for('static', filename='images/footer_ex4.avif') }}" class="card-img">
                 <div class="card-img-overlay">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus optio consequuntur minus aspernatur, quaerat veniam officia mollitia repellendus. Deleniti molestiae expedita eum, culpa nihil at fugit totam quod tempora possimus?</p>
+                    <h5 class="card-title">ArtVerificator</h5>
+                    <p class="card-text" style="margin: 30px auto;">Projeto de TCC para detecção de arte gerada por Inteligência Artificial.</p>
                 </div>
         </div>
     </footer>
-
 </body>
 </html>

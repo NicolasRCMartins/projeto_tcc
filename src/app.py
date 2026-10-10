@@ -38,14 +38,17 @@ def error_page(message):
         <meta http-equiv="refresh" content="5;url=/">
         <title>Erro no Processamento</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
         <style>
-            body {{ background-color: #f8f9fa; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}
-            .error-box {{ text-align: center; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 500px; }}
+            body {{ background-color: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }}
+            .error-box {{ text-align: center; background: white; padding: 40px;  box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 500px; }}
         </style>
     </head>
     <body>
         <div class="error-box">
-            <h1 class="text-danger">⚠️ Ops!</h1>
+            <h1 class="text-danger">Ops!</h1>
             <p class="lead">{message}</p>
             <p class="text-muted small">Você será redirecionado automaticamente para a página inicial em 5 segundos...</p>
             <a href="/" class="btn btn-primary mt-3">Voltar agora</a>
@@ -176,8 +179,13 @@ def feedback():
     shutil.move(src_path, dest_path)
     
     return f"""
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    
     <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
-        <h2>✅ Obrigado pelo feedback!</h2>
+        <h2>Obrigado pelo feedback!</h2>
         <p>A imagem foi movida com sucesso para a pasta de treino (<strong>{correct_label}</strong>).</p>
         <p>Ela será utilizada no próximo retreinamento do modelo para corrigir esse erro.</p>
         <a href="/" style="text-decoration: none; background: #0d6efd; color: white; padding: 10px 20px; border-radius: 5px;">Voltar para o início</a>

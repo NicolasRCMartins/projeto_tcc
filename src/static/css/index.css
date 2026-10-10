@@ -1,0 +1,245 @@
+body {
+    position: relative; 
+    margin: 0; 
+    padding-top: 80px;
+    padding-left: 0;
+    padding-right: 0;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+body > .container {
+    flex: 1;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+                
+    background-image: url("../images/wallpaper_ex2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+                
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body > * {
+    position: relative;
+    z-index: 1;
+}
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .btn, .badge, .nav-link, .nav-link.active {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 800;
+        }
+        .custom-navbar {
+            background-color: transparent; /* Transparente inicialmente */
+            transition: background-color 0.3s ease;
+            position: fixed; /* Fixa a navbar no topo da tela */
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Garante que fique acima de tudo */
+        }
+        .custom-navbar .navbar-nav {
+            gap: 10px; 
+        }
+        .custom-navbar:hover {
+            background-color: rgb(0, 0, 0) !important; /* Preto sólido */
+        }
+        .custom-navbar .navbar-brand, .custom-navbar .nav-link {
+            color: rgb(0, 0, 0) !important;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+        .custom-navbar:hover .nav-link, .custom-navbar .nav-link:hover {
+            color: #ffffff !important;
+        }
+
+        .custom-navbar:hover .nav-link.active {
+            color: rgba(255,255,255,0.5) !important;
+        }
+
+        .custom-navbar:hover .navbar-brand {
+            color: #ffffff !important;
+        }
+
+        .upload-container { 
+            margin: 250px auto;
+            padding: 60px 80px;
+            transition: all 0.3s ease;
+            max-width: 700px; /* Limita a largura para ficar mais elegante */
+        }
+        .upload-container:hover { 
+            background: rgba(255,255,255, 0.7); 
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px); /* Leve elevação no hover */ 
+        }
+        .upload-container h1, .upload-container h2, .upload-container p {
+            text-align: left;
+            margin-left: 0;
+        }
+        .upload-container h1 {
+            font-size: 3.5rem;
+            color: #212529;
+            margin-bottom: 10px;
+        }
+
+        .upload-container h2 {
+            font-size: 1.5rem;
+            color: #6c757d;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .upload-container p {
+            color: #495057;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .custom-file-input {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .custom-file-input:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+
+        .custom-file-input input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .custom-file-input .file-label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #495057;
+            font-size: 0.95rem;
+        }
+
+        .custom-file-input .file-icon {
+            font-size: 1.5rem;
+            color: #6c757d;
+        }
+
+        .custom-file-input .file-text {
+            flex: 1;
+        }
+
+        .custom-file-input .file-text strong {
+            display: block;
+            color: #212529;
+            margin-bottom: 2px;
+        }
+
+        .custom-file-input .file-text small {
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        .btn-analyze {
+            background: #738fab;
+            border: none;
+            color: white;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn-analyze:hover {
+            background: #2a353f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            color: white;
+        }
+
+        .btn-analyze:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+footer {
+    position: relative; 
+    width: 100%;
+    margin-top: auto; 
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    height: 200px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+footer .card {
+    border-radius: 0 !important;
+    border: none !important;
+    height: 200px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+footer .card-img {
+    width: 100%;
+    height: 200px;
+    opacity: 0.6;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+footer .card-img-overlay {
+    padding: 20px 30px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+footer .card-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+footer .card-text {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.95rem;
+}

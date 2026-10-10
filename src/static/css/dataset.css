@@ -1,0 +1,267 @@
+body {
+    position: relative; 
+    margin: 0; 
+    padding-top: 80px;
+    padding-left: 0;
+    padding-right: 0;
+    font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+body > .container {
+    flex: 1;
+}
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+                
+    background-image: url("../images/wallpaper_ex2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+                
+    background-blend-mode: overlay;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+body > * {
+    position: relative;
+    z-index: 1;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+.btn, .badge, .nav-link, .nav-link.active {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 800;
+}
+.custom-navbar {
+    background-color: transparent; /* Transparente inicialmente */
+    transition: background-color 0.3s ease;
+    position: fixed; /* Fixa a navbar no topo da tela */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que fique acima de tudo */
+}
+.custom-navbar .navbar-nav {
+    gap: 10px; 
+    }
+.custom-navbar:hover {
+    background-color: rgb(0, 0, 0) !important; /* Preto sólido */
+}
+.custom-navbar .navbar-brand, .custom-navbar .nav-link {
+    color: rgb(0, 0, 0) !important;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+.custom-navbar:hover .nav-link, .custom-navbar .nav-link:hover {
+    color: #ffffff !important;
+}
+.custom-navbar:hover .nav-link.active {
+    color: rgba(255,255,255,0.5) !important;
+}
+.custom-navbar:hover .navbar-brand {
+    color: #ffffff !important;
+}
+.dataset-container {
+    padding: 40px 50px;
+    max-width: 900px; /* Um pouco mais largo para acomodar o carrossel */
+    margin: 60px auto;
+    transition: all 0.3s ease;
+}
+
+.dataset-container:hover {
+    background: rgba(255,255,255, 0.7);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.dataset-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #212529;
+    text-align: center;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.dataset-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: #343a40;
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.dataset-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+.filter-nav .nav-link {
+    color: #495057;
+    font-weight: 600;
+    margin: 0 8px;
+    border-radius: 25px;
+    padding: 8px 24px;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+.filter-nav .nav-link.active {
+    background-color: #738fab; /* Cinza escuro elegante */
+    color: white;
+    box-shadow: 0 4px 10px rgba(52, 58, 64, 0.3);
+}
+.filter-nav .nav-link:hover:not(.active) {
+    background-color: #e9ecef;
+    color: #212529;
+}
+.stats-bar {
+    padding: 15px 25px;
+    margin-bottom: 0px !important;
+}
+.badge-custom {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+.badge-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-danger {
+    background-color: #f8d7da;
+    color: #842029;
+}
+.carousel-item {
+    min-height: 450px;
+    overflow: hidden;
+    text-align: center;
+    position: relative;
+}
+.carousel-item img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 430px; 
+    max-width: 90%;
+    object-fit: contain;
+}
+
+.carousel-caption {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000000 !important;
+    padding: 12px 20px;
+    width: auto;
+    max-width: 85%;
+    text-align: center;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    padding: 18px;
+    background-size: 50%;
+    transition: all 0.3s ease;
+}
+
+.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+}
+.custom-pagination {
+    margin-top: -20px !important;
+}
+.custom-pagination .page-link {
+    color: #343a40;
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    margin: 0 4px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.custom-pagination .page-link:hover:not(.disabled) {
+    background-color: #343a40;
+    color: white;
+    border-color: #343a40;
+    transform: translateY(-2px);
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    color: rgb(255,255,255);
+    background-color: transparent;
+    border-color: transparent;
+}
+footer {
+    position: relative; 
+    width: 100%;
+    margin-top: auto; 
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    height: 200px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+footer .card {
+    border-radius: 0 !important;
+    border: none !important;
+    height: 200px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+footer .card-img {
+    width: 100%;
+    height: 200px;
+    opacity: 0.6;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+footer .card-img-overlay {
+    padding: 20px 30px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+footer .card-title {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+footer .card-text {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.95rem;
+}
