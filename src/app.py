@@ -191,6 +191,10 @@ def feedback():
         <a href="/" style="text-decoration: none; background: #0d6efd; color: white; padding: 10px 20px; border-radius: 5px;">Voltar para o início</a>
     </div>
     """
+    
+@app.route('/manifest.json')
+def manifest():
+    return app.send_static_file('manifest.json')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
