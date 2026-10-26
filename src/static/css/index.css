@@ -78,13 +78,13 @@ body > * {
         }
 
         .upload-container { 
-            margin: 250px auto;
+            margin: 200px auto;
             padding: 60px 80px;
             transition: all 0.3s ease;
             max-width: 700px; /* Limita a largura para ficar mais elegante */
         }
         .upload-container:hover { 
-            background: rgba(255,255,255, 0.7); 
+            background: rgba(255,255,255, 0.8); 
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
             transform: translateY(-5px); /* Leve elevação no hover */ 
         }

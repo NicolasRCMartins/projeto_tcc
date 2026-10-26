@@ -8,10 +8,10 @@ import dataset
 import time
 import numpy as np
 
-EPOCHS = 20
+EPOCHS = 30
 BATCH_SIZE = 64
 K_FOLDS = 5
-PATIENCE = 4
+PATIENCE = 5
 
 class EarlyStopping:
     def __init__(self, patience=5, delta=0):

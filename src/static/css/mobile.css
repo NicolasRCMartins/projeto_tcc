@@ -1,6 +1,3 @@
-/* ==========================================================================
-   5. ESTILOS MOBILE (Substitui os estilos desktop acima quando a tela é pequena)
-   ========================================================================== */
 @media (max-width: 768px) {
     body { padding-top: 70px; }
     
@@ -34,6 +31,7 @@
         right: 0 !important;
         z-index: 1000 !important;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5) !important;
+        transition: all 0.3s ease;
     }
 
     .navbar-collapse.show {
@@ -76,17 +74,10 @@
     .result-container,
     .about-container {
         padding: 30px 20px !important;
-        margin: 20px 15px !important;
+        margin: 20px 15px -20px 15px !important;
         width: calc(100% - 30px) !important;
-    }
-
-    .upload-container:hover,
-    .dataset-container:hover,
-    .result-container:hover,
-    .about-container:hover {
         background: rgba(255,255,255, 0.9); 
         box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        transform: translateY(-5px); 
     }
 
     /* Tipografia Mobile */
@@ -106,13 +97,18 @@
     /* --- DATASET MOBILE --- */
     .dataset-container {
         padding: 20px 15px !important; 
-        margin: 15px 10px !important;  
+        margin: 15px 10px !important; 
+        background: rgba(255,255,255, 0.9); 
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); 
     }
 
     .dataset-title { margin-bottom: 5px !important; }
     .dataset-subtitle { margin-bottom: 15px !important; }
     
-    .filter-nav { margin-bottom: 15px !important; }
+    .filter-nav { 
+        margin-bottom: auto !important;
+        font-size: 0.7rem; 
+    }
     
     .stats-bar {
         margin-bottom: 10px !important;
@@ -151,14 +147,25 @@
     .about-text { text-align: left !important; }
     
     .github-btn {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important; 
+        width: fit-content !important; 
+        margin: 30px auto 0 auto !important; 
         padding: 12px 24px !important;
-        font-size: 0.9rem !important;
-        margin-top: 20px !important;
-        width: 100%;
-        justify-content: center;
+        font-size: 0.95rem !important;
     }
     
-    .github-btn svg { width: 20px !important; height: 20px !important; }
+    .github-btn svg { 
+        width: 20px !important; 
+        height: 20px !important; 
+        flex-shrink: 0; 
+    }
+
+    .github-btn span {
+        white-space: nowrap;
+    }
 
     /* --- RESULTADO MOBILE --- */
     .result-img {

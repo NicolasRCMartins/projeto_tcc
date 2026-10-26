@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curadoria</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/curadoria.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mobile.css') }}">
+
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#343a40">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ArtVerificator">
+
+    <!-- Ícones para iOS -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/appstore-images/android/launchericon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='icons/appstore-images/android/launchericon-152x152.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/appstore-images/android/launchericon-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="167x167" href="{{ url_for('static', filename='icons/appstore-images/android/launchericon-152x152.png') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="curadoria-container">
+            <h1 class="text-center mb-4">Curadoria de Imagens</h1>
+            <p class="text-center text-muted mb-4">
+                Revise as imagens enviadas pelos usuários e aprove ou rejeite cada uma.
+                <br><strong>Total pendente: {{ total }} imagens</strong>
+            </p>
+
+            {% if imagens %}
+                <div class="row">
+                    {% for img in imagens %}
+                    <div class="col-md-4">
+                        <div class="curadoria-card">
+                            <img src="{{ img.url }}" alt="{{ img.filename }}" class="curadoria-img">
+                            
+                            <div class="text-center">
+                                <span class="label-badge {% if img.label_sugerido == 'humano' %}label-humano{% else %}label-ia{% endif %}">
+                                    Label sugerido: {{ img.label_sugerido|upper }}
+                                </span>
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <div class="mb-2">
+                                    <small class="text-muted">Aprovar como:</small>
+                                </div>
+                                <button class="btn-aprovar" onclick="aprovar('{{ img.filename }}', 'humano')">
+                                    Humano
+                                </button>
+                                <button class="btn-aprovar" onclick="aprovar('{{ img.filename }}', 'ia')">
+                                    IA
+                                </button>
+                                <button class="btn-rejeitar" onclick="rejeitar('{{ img.filename }}')">
+                                    Rejeitar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info text-center">
+                    <h4>Nenhuma imagem pendente de curadoria.</h4>
+                    <p>Todas as imagens enviadas pelos usuários já foram revisadas.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function aprovar(filename, label) {
+            if (!confirm(`Aprovar imagem como "${label}"?`)) return;
+            
+            fetch('/curadoria/aprovar', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `filename=${encodeURIComponent(filename)}&label_final=${label}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            })
+            .catch(error => alert('Erro na requisição: ' + error));
+        }
+
+        function rejeitar(filename) {
+            if (!confirm('Rejeitar e remover esta imagem?')) return;
+            
+            fetch('/curadoria/rejeitar', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `filename=${encodeURIComponent(filename)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    location.reload();
+                } else {
+                    alert('Erro: ' + data.error);
+                }
+            })
+            .catch(error => alert('Erro na requisição: ' + error));
+        }
+    </script>
+</body>
+</html>
