@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, send_from_directory, jsonify
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_httpauth import HTTPBasicAuth
 from werkzeug.utils import secure_filename
 import predict
 import os
@@ -10,6 +11,28 @@ import uuid
 from datetime import datetime
 
 app = Flask(__name__)
+
+# ==========================================
+# AUTENTICAÇÃO BÁSICA PARA CURADORIA
+# ==========================================
+auth = HTTPBasicAuth()
+
+@auth.verify_password
+def verify_password(username, password):
+    admin_user = os.environ.get('ADMIN_USERNAME', 'admin')
+    admin_pass = os.environ.get('ADMIN_PASSWORD')
+    
+    if not admin_pass:
+        print("⚠️ AVISO: ADMIN_PASSWORD não configurado! Curadoria bloqueada.")
+        return False
+    
+    if username == admin_user and password == admin_pass:
+        return username
+    return False
+
+@auth.error_handler
+def auth_error(status):
+    return jsonify({"error": "Acesso negado. Credenciais inválidas."}), 401
 
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024  # 5MB
 
@@ -270,6 +293,7 @@ def feedback():
         return error_page("Erro ao processar o feedback.")
     
 @app.route("/curadoria")
+@auth.login_required
 @limiter.limit("30 per hour")  
 def curadoria():
     """Página para revisar imagens enviadas pelos usuários"""
@@ -290,11 +314,13 @@ def curadoria():
     return render_template('curadoria.html', imagens=imagens_pendentes, total=len(imagens_pendentes))
 
 @app.route('/curadoria-img/<filename>')
+@auth.login_required
 def serve_curadoria_image(filename):
     filename = secure_filename(filename)
     return send_from_directory(CURADORIA_FOLDER, filename)
 
 @app.route('/curadoria/aprovar', methods=['POST'])
+@auth.login_required
 @limiter.limit("30 per minute")
 def curadoria_aprovar():
     filename = request.form.get('filename')
@@ -324,6 +350,7 @@ def curadoria_aprovar():
         return jsonify({'error': 'Erro ao mover arquivo'}), 500
 
 @app.route('/curadoria/rejeitar', methods=['POST'])
+@auth.login_required
 @limiter.limit("30 per minute")
 def curadoria_rejeitar():
     filename = request.form.get('filename')

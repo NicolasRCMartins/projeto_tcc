@@ -202,6 +202,16 @@
     .custom-file-input .file-text strong { font-size: 0.9rem !important; }
     .custom-file-input .file-text small { font-size: 0.8rem !important; }
 
+    .curadoria-container {
+        padding: 25px 20px; 
+        margin: 15px; 
+    }
+    
+    .btn-aprovar, .btn-rejeitar {
+        width: 100%;
+        margin: 5px 0;
+    }
+
     /* --- FOOTER MOBILE --- */
     footer {
         margin-top: 30px !important; 
